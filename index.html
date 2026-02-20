@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>RecordFlow | Enterprise Global Hub</title>
+    <title>RecordFlow | Elite Enterprise Master Node</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -21,33 +21,37 @@
         .ticker-text { animation: scroll 25s linear infinite; white-space: nowrap; }
         @keyframes scroll { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
         .chat-pulse { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.7); animation: pulse 2s infinite; }
-        @keyframes pulse { 70% { box-shadow: 0 0 0 12px rgba(99, 102, 241, 0); } 100% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0); } }
+        @keyframes pulse { 70% { box-shadow: 0 0 0 15px rgba(99, 102, 241, 0); } 100% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0); } }
         img { pointer-events: none; -webkit-user-drag: none; }
+        
+        @media (max-width: 768px) {
+            .mobile-sidebar { width: 90px; flex-shrink: 0; }
+            .mobile-grid { flex-grow: 1; }
+            .nav-text { font-size: 15px !important; }
+        }
     </style>
 </head>
 <body x-data="recordFlowApp" @contextmenu.prevent @keydown="handleSecurity($event)">
 
-    <div id="security-blocker" class="fixed inset-0 bg-black z-[9999] hidden flex items-center justify-center text-center"><h1 class="text-red-600 font-black uppercase">Encryption Shield Active</h1></div>
+    <div id="security-blocker" class="fixed inset-0 bg-black z-[9999] hidden flex items-center justify-center text-center"><h1 class="text-red-600 font-black uppercase text-xl">System Firewall Active</h1></div>
 
     <div class="min-h-screen flex flex-col glow-bg" x-cloak>
         
         <template x-if="config.tickerEnabled">
-            <div class="bg-yellow-400 text-black text-[10px] font-black py-1.5 overflow-hidden z-50">
+            <div class="bg-yellow-400 text-black text-[10px] font-black py-1.5 overflow-hidden z-50 border-b border-black/5">
                 <div class="ticker-text uppercase tracking-widest" x-text="config.tickerText"></div>
             </div>
         </template>
 
-        <nav class="sticky top-0 z-40 glass border-b border-white/5 px-6 md:px-24 py-5 flex justify-between items-center w-full">
-            <div class="flex items-center gap-4 cursor-pointer relative" 
-                 @mousedown="startPress" @mouseup="cancelPress" @mouseleave="cancelPress"
-                 @touchstart="startPress" @touchend="cancelPress">
+        <nav class="sticky top-0 z-40 glass border-b border-white/5 px-6 md:px-24 py-4 flex justify-between items-center w-full">
+            <div class="flex items-center gap-4 cursor-pointer relative" @mousedown="startPress" @mouseup="cancelPress" @mouseleave="cancelPress" @touchstart="startPress" @touchend="cancelPress">
                 <div class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center font-black text-white shadow-lg">R</div>
                 <div class="flex flex-col">
-                    <span class="text-2xl font-black tracking-tighter leading-none">Record<span class="text-indigo-500">Flow</span></span>
-                    <span class="text-[7px] uppercase font-bold text-gray-500 mt-1 tracking-widest">Enterprise Node</span>
+                    <span class="text-xl md:text-2xl font-black tracking-tighter leading-none nav-text">Record<span class="text-indigo-500">Flow</span></span>
+                    <span class="text-[7px] md:text-[8px] uppercase font-bold text-gray-500 mt-1 tracking-widest">Enterprise Global</span>
                 </div>
             </div>
-            <button @click="view = 'register'" class="bg-indigo-600 text-[10px] font-black px-8 py-3 rounded-full uppercase tracking-widest shadow-xl hover:bg-indigo-700 transition-all">Register as a Writer</button>
+            <button @click="view = 'register'" class="bg-indigo-600 text-[9px] md:text-[10px] font-black px-4 md:px-8 py-2 md:py-3 rounded-full uppercase tracking-widest shadow-xl hover:bg-indigo-700 transition-all ml-auto">Register as a Writer</button>
         </nav>
 
         <main class="flex-grow container mx-auto px-6 md:px-12 py-6">
@@ -55,45 +59,43 @@
             <div x-show="view === 'home'" x-transition>
                 
                 <template x-if="config.bannerEnabled">
-                    <div class="w-full h-28 md:h-40 rounded-[2.5rem] overflow-hidden mb-10 glass border border-white/10 relative shadow-xl">
+                    <div class="w-full h-24 md:h-40 rounded-[2.5rem] overflow-hidden mb-10 glass border border-white/10 relative shadow-xl">
                         <img :src="config.bannerUrl" class="w-full h-full object-cover opacity-30">
-                        <div class="absolute inset-0 flex items-center justify-center p-4 bg-black/10">
-                            <h2 class="text-lg md:text-2xl font-black uppercase tracking-tighter text-center" x-text="config.bannerText"></h2>
+                        <div class="absolute inset-0 flex items-center justify-center p-4 bg-black/10 text-center">
+                            <h2 class="text-sm md:text-3xl font-black uppercase tracking-tighter" x-text="config.bannerText"></h2>
                         </div>
                     </div>
                 </template>
 
-                <div class="flex flex-col lg:flex-row gap-8 items-start">
-                    <aside class="w-full lg:w-72 lg:sticky lg:top-32 space-y-4">
-                        <div class="glass p-7 rounded-[3rem] border border-white/5 shadow-2xl">
-                            <p class="text-[10px] font-black uppercase text-indigo-400 mb-8 tracking-[0.2em]">Global Directory</p>
-                            <div class="space-y-5">
-                                <div><label class="text-[9px] font-bold text-gray-500 uppercase mb-2 block tracking-widest">Search</label>
-                                <input type="text" x-model="filters.search" placeholder="Type name..." class="w-full bg-white/5 border border-white/10 rounded-2xl px-5 py-3 text-xs outline-none focus:border-indigo-500 transition"></div>
-                                <div><label class="text-[9px] font-bold text-gray-500 uppercase mb-2 block tracking-widest">Subject</label>
-                                <select x-model="filters.subject" class="w-full bg-white/5 border border-white/10 rounded-2xl px-5 py-3 text-xs outline-none cursor-pointer"><option value="">All Subjects</option><template x-for="s in subjectList"><option :value="s" x-text="s"></option></template></select></div>
-                                <div><label class="text-[9px] font-bold text-gray-500 uppercase mb-2 block tracking-widest">Origin</label>
-                                <select x-model="filters.country" class="w-full bg-white/5 border border-white/10 rounded-2xl px-5 py-3 text-xs outline-none cursor-pointer"><option value="">All Regions</option><template x-for="c in countries"><option :value="c" x-text="c"></option></template></select></div>
+                <div class="flex flex-row gap-4 md:gap-10 items-start">
+                    
+                    <aside class="mobile-sidebar lg:w-72 lg:sticky lg:top-32 space-y-4">
+                        <div class="glass p-4 md:p-8 rounded-[1.5rem] md:rounded-[3.5rem] border border-white/5 shadow-2xl">
+                            <p class="hidden md:block text-[10px] font-black uppercase text-indigo-400 mb-8 tracking-widest">Global Filter</p>
+                            <div class="space-y-4 md:space-y-6">
+                                <div><input type="text" x-model="filters.search" placeholder="Name..." class="w-full bg-white/5 border border-white/10 rounded-lg md:rounded-2xl px-2 md:px-5 py-2 md:py-3.5 text-[9px] md:text-xs outline-none focus:border-indigo-500 transition shadow-inner"></div>
+                                <div><select x-model="filters.subject" class="w-full bg-white/5 border border-white/10 rounded-lg md:rounded-2xl px-1 md:px-5 py-2 md:py-3.5 text-[9px] md:text-xs outline-none cursor-pointer"><option value="">Subjects</option><template x-for="s in subjectList"><option :value="s" x-text="s"></option></template></select></div>
+                                <div><select x-model="filters.country" class="w-full bg-white/5 border border-white/10 rounded-lg md:rounded-2xl px-1 md:px-5 py-2 md:py-3.5 text-[9px] md:text-xs outline-none cursor-pointer"><option value="">Regions</option><template x-for="c in countries"><option :value="c" x-text="c"></option></template></select></div>
                             </div>
                         </div>
                     </aside>
 
-                    <div class="flex-grow">
-                        <div class="grid gap-3" :class="getGridClass()">
+                    <div class="flex-grow mobile-grid">
+                        <div class="grid gap-3 md:gap-5" :class="getGridClass()">
                             <template x-for="writer in filteredWriters" :key="writer.id">
-                                <div class="glass group relative overflow-hidden rounded-[2rem] border border-white/5 transition-all duration-300 hover:border-indigo-500/50" :class="writer.isHighlighted ? 'ring-2 ring-indigo-500/30' : ''">
-                                    <div x-show="writer.isHighlighted" class="absolute top-4 right-4 bg-indigo-600 text-[7px] font-black px-2.5 py-1 rounded-full z-10 uppercase tracking-widest">Elite</div>
-                                    <div class="p-3">
-                                        <div class="w-full aspect-square rounded-[1.5rem] bg-indigo-950/20 mb-3 overflow-hidden relative">
-                                            <img :src="writer.avatar" class="w-full h-full object-contain p-2 group-hover:scale-110 transition-transform">
-                                            <div class="absolute bottom-2 left-3 flex items-center gap-1.5 bg-black/60 px-2 py-1 rounded-lg">
+                                <div class="glass group relative overflow-hidden rounded-[1.5rem] md:rounded-[2.5rem] border border-white/5 transition-all duration-300 hover:border-indigo-500/50" :class="writer.isHighlighted ? 'ring-1 md:ring-2 ring-indigo-500/30 shadow-2xl' : ''">
+                                    <div x-show="writer.isHighlighted" class="absolute top-3 right-3 bg-indigo-600 text-[6px] md:text-[8px] font-black px-2 py-0.5 rounded-full z-10 uppercase tracking-widest shadow-lg">Elite</div>
+                                    <div class="p-2 md:p-6">
+                                        <div class="w-full aspect-square rounded-[1rem] md:rounded-[2.5rem] bg-indigo-950/20 mb-3 md:mb-6 overflow-hidden relative border border-white/5">
+                                            <img :src="writer.avatar" class="w-full h-full object-contain p-2 group-hover:scale-110 transition-transform duration-500">
+                                            <div class="absolute bottom-2 left-2 flex items-center gap-1.5 bg-black/70 px-1.5 py-0.5 rounded-md border border-white/5 shadow-inner">
                                                 <span class="w-1.5 h-1.5 rounded-full" :class="writer.available ? 'bg-green-500 shadow-[0_0_5px_#22c55e]' : 'bg-red-500'"></span>
-                                                <span class="text-[8px] font-black uppercase text-white" x-text="writer.available ? 'Ready' : 'In Task'"></span>
+                                                <span class="text-[7px] md:text-[9px] font-black uppercase text-white" x-text="writer.available ? 'Ready' : 'Busy'"></span>
                                             </div>
                                         </div>
-                                        <h4 class="font-bold text-[12px] truncate px-2" x-text="writer.name"></h4>
-                                        <p class="text-[9px] text-gray-500 mb-4 px-2 truncate uppercase font-bold tracking-tighter" x-text="writer.subject + ' • ' + writer.country"></p>
-                                        <button @click="initiateHire(writer)" class="w-full py-2 bg-white text-black text-[10px] font-black rounded-xl hover:bg-indigo-600 hover:text-white transition uppercase shadow-lg">Unlock Scribe</button>
+                                        <h4 class="font-bold text-[10px] md:text-[14px] truncate px-1" x-text="writer.name"></h4>
+                                        <p class="text-[8px] md:text-[10px] text-gray-500 mb-3 md:mb-5 px-1 truncate uppercase font-black tracking-tighter" x-text="writer.subject + ' • ' + writer.country"></p>
+                                        <button @click="initiateHire(writer)" class="w-full py-1.5 md:py-3.5 bg-white text-black text-[9px] md:text-[11px] font-black rounded-lg md:rounded-[2rem] hover:bg-indigo-600 hover:text-white transition uppercase shadow-lg">Unlock Scribe</button>
                                     </div>
                                 </div>
                             </template>
@@ -104,29 +106,29 @@
 
             <div x-show="view === 'admin'" x-transition class="py-4">
                 <div class="flex flex-col lg:flex-row gap-8">
-                    <nav class="w-full lg:w-72 glass p-6 rounded-[2.5rem] h-fit space-y-1.5 shadow-2xl">
+                    <nav class="w-full lg:w-72 glass p-6 rounded-[2.5rem] h-fit space-y-1.5 shadow-2xl border border-white/5">
                         <template x-for="tab in adminTabs">
                             <button @click="activeAdminTab = tab.id" :class="activeAdminTab === tab.id ? 'bg-indigo-600 shadow-xl' : 'hover:bg-white/5'" class="w-full text-left px-6 py-4 rounded-2xl text-[10px] font-black uppercase tracking-widest transition" x-text="tab.name"></button>
                         </template>
-                        <button @click="view = 'home'" class="w-full text-left px-6 py-4 text-red-500 text-[10px] font-black mt-20 uppercase">Logout</button>
+                        <button @click="view = 'home'" class="w-full text-left px-6 py-4 text-red-500 text-[10px] font-black mt-20 uppercase tracking-widest shadow-inner">Exit Terminal</button>
                     </nav>
 
-                    <div class="flex-grow glass p-10 rounded-[3.5rem] min-h-[700px]">
+                    <div class="flex-grow glass p-10 rounded-[3.5rem] min-h-[750px] shadow-2xl border border-white/5">
                         
                         <div x-show="activeAdminTab === 'writers'">
-                            <h2 class="text-2xl font-black mb-12 uppercase tracking-widest text-indigo-500">Talent moderation</h2>
+                            <h2 class="text-xl font-black mb-12 uppercase tracking-widest text-indigo-500">Validation Hub</h2>
                             <div class="overflow-x-auto">
-                                <table class="w-full text-left text-[10px]">
-                                    <thead class="text-gray-500 uppercase border-b border-white/10 font-black tracking-widest"><tr><th class="pb-5">Candidate</th><th class="pb-5">Status</th><th class="pb-5">Action</th></tr></thead>
+                                <table class="w-full text-left text-[11px]">
+                                    <thead class="text-gray-500 uppercase border-b border-white/10 font-black tracking-widest"><tr><th class="pb-5">Scribe</th><th class="pb-5">Status</th><th class="pb-5">Action</th></tr></thead>
                                     <tbody class="divide-y divide-white/5">
                                         <template x-for="w in writers">
                                             <tr class="hover:bg-white/2 transition">
-                                                <td class="py-6 font-bold text-xs" x-text="w.name"></td>
-                                                <td class="py-6 uppercase font-black text-[10px]" :class="w.status === 'approved' ? 'text-green-500' : 'text-yellow-500'" x-text="w.status"></td>
+                                                <td class="py-6 font-bold" x-text="w.name"></td>
+                                                <td class="py-6 uppercase font-black text-[9px]" :class="w.status === 'approved' ? 'text-green-400' : 'text-yellow-400'" x-text="w.status"></td>
                                                 <td class="py-6 flex gap-4 text-[9px] font-black">
-                                                    <button @click="updateStatus(w.id, 'approved')" class="text-green-500">Approve</button>
-                                                    <button @click="updateStatus(w.id, 'blocked')" class="text-orange-500">Block</button>
-                                                    <button @click="deleteWriter(w.id)" class="text-red-500">Reject</button>
+                                                    <button @click="updateStatus(w.id, 'approved')" class="text-green-500 hover:underline">APPROVE</button>
+                                                    <button @click="updateStatus(w.id, 'blocked')" class="text-orange-500 hover:underline">BLOCK</button>
+                                                    <button @click="deleteWriter(w.id)" class="text-red-500 hover:underline">REJECT</button>
                                                     <button @click="toggleHighlight(w.id)" :class="w.isHighlighted ? 'text-indigo-400' : 'text-gray-600'" class="text-lg">★</button>
                                                 </td>
                                             </tr>
@@ -136,121 +138,135 @@
                             </div>
                         </div>
 
+                        <div x-show="activeAdminTab === 'ads'">
+                            <h2 class="text-xl font-black mb-10 uppercase tracking-widest text-indigo-500">Revenue & Ads</h2>
+                            <div class="space-y-6">
+                                <label class="text-[10px] font-black uppercase text-gray-500 block mb-2 tracking-widest">Adsterra / AdMob / Google Script Code (HTML)</label>
+                                <textarea x-model="config.adCode" class="w-full bg-black/50 border border-white/10 rounded-[2.5rem] p-6 text-xs font-mono h-64 outline-none shadow-inner" placeholder="Paste your ads script here..."></textarea>
+                                <button @click="saveData; alert('Monetization Node Synchronized')" class="px-12 py-5 bg-indigo-600 rounded-[2rem] text-[10px] font-black uppercase tracking-widest shadow-2xl">Publish Ads Live</button>
+                            </div>
+                        </div>
+
                         <div x-show="activeAdminTab === 'cms'">
-                            <h2 class="text-2xl font-black mb-10 uppercase tracking-widest text-indigo-500">Global CMS</h2>
+                            <h2 class="text-xl font-black mb-10 uppercase tracking-widest text-indigo-500">CMS Node</h2>
                             <div class="grid md:grid-cols-2 gap-10">
                                 <div class="space-y-6">
-                                    <label class="text-[10px] font-black text-gray-500 uppercase">Banner URL</label><input type="text" x-model="config.bannerUrl" class="w-full bg-white/5 border border-white/10 p-5 rounded-2xl text-xs outline-none">
-                                    <label class="text-[10px] font-black text-gray-500 uppercase">Ticker</label><input type="text" x-model="config.tickerText" class="w-full bg-white/5 border border-white/10 p-5 rounded-2xl text-xs outline-none">
-                                    <label class="text-[10px] font-black text-gray-500 uppercase">Offer Message</label><textarea x-model="config.offerText" class="w-full bg-white/5 border border-white/10 p-5 rounded-2xl text-xs h-24 outline-none"></textarea>
+                                    <label class="text-[10px] font-black text-gray-500 uppercase block mb-1 tracking-widest">Banner URL</label><input type="text" x-model="config.bannerUrl" class="w-full bg-white/5 border border-white/10 p-5 rounded-2xl text-xs outline-none">
+                                    <label class="text-[10px] font-black text-gray-500 uppercase block mb-1 tracking-widest">Ticker Text</label><input type="text" x-model="config.tickerText" class="w-full bg-white/5 border border-white/10 p-5 rounded-2xl text-xs outline-none">
+                                    <label class="text-[10px] font-black text-gray-500 uppercase block mb-1 tracking-widest">About Us</label><textarea x-model="config.aboutText" class="w-full bg-white/5 border border-white/10 p-5 rounded-2xl text-xs h-32 outline-none shadow-inner"></textarea>
                                 </div>
                                 <div class="space-y-6">
-                                    <label class="text-[10px] font-black text-gray-500 uppercase">Grid Layout</label>
-                                    <select x-model="config.gridLayout" class="w-full bg-white/5 border border-white/10 p-5 rounded-2xl text-xs outline-none"><option value="grid-cols-2">2x2 Cards</option><option value="grid-cols-3">3x3 Cards</option><option value="grid-cols-4">4x4 Standard</option><option value="grid-cols-5">5x5 Responsive</option></select>
-                                    <label class="text-[10px] font-black text-gray-500 uppercase">Footer Address</label><textarea x-model="config.footerAddress" class="w-full bg-white/5 border border-white/10 p-5 rounded-2xl text-xs h-32 outline-none shadow-inner"></textarea>
+                                    <label class="text-[10px] font-black text-gray-500 uppercase block mb-1 tracking-widest">Grid Layout</label>
+                                    <select x-model="config.gridLayout" class="w-full bg-white/5 border border-white/10 p-5 rounded-2xl text-xs outline-none shadow-inner"><option value="grid-cols-2">2x2 Cards</option><option value="grid-cols-3">3x3 Cards</option><option value="grid-cols-4">4x4 Standard</option><option value="grid-cols-5">5x5 Responsive</option></select>
+                                    <label class="text-[10px] font-black text-gray-500 uppercase block mb-1 tracking-widest">Footer Address</label><textarea x-model="config.footerAddress" class="w-full bg-white/5 border border-white/10 p-5 rounded-2xl text-xs h-40 outline-none shadow-inner"></textarea>
                                 </div>
                             </div>
-                            <button @click="saveData; alert('CDN Sync Complete')" class="mt-8 px-10 py-5 bg-indigo-600 rounded-[2rem] text-[10px] font-black uppercase shadow-2xl">Publish Global Changes</button>
+                            <button @click="saveData; alert('Global Asset Node Updated')" class="mt-10 px-12 py-5 bg-indigo-600 rounded-[2rem] text-[10px] font-black uppercase tracking-widest shadow-2xl">Publish Global Updates</button>
                         </div>
 
                         <div x-show="activeAdminTab === 'payments'">
-                            <h2 class="text-2xl font-black mb-10 uppercase tracking-widest text-indigo-500">Gateways & Security</h2>
+                            <h2 class="text-2xl font-black mb-12 uppercase tracking-widest text-indigo-500">Financial Gateways</h2>
                             <div class="grid md:grid-cols-2 gap-10">
-                                <div class="p-10 glass rounded-[3rem] space-y-6">
-                                    <div class="flex justify-between items-center text-xs font-black uppercase"><span>Stripe Gateway</span><input type="checkbox" x-model="config.stripeEnabled"></div>
-                                    <div class="flex justify-between items-center text-xs font-black uppercase"><span>Crypto Node</span><input type="checkbox" x-model="config.cryptoEnabled"></div>
-                                    <div class="flex justify-between items-center text-xs font-bold uppercase"><span>India UPI</span><input type="checkbox" x-model="config.inrEnabled"></div>
+                                <div class="p-10 glass rounded-[3.5rem] space-y-6 border border-white/5">
+                                    <div class="flex justify-between items-center text-xs font-black uppercase"><span>Stripe Global</span><input type="checkbox" x-model="config.stripeEnabled"></div>
+                                    <div class="flex justify-between items-center text-xs font-black uppercase"><span>Crypto (USDT)</span><input type="checkbox" x-model="config.cryptoEnabled"></div>
+                                    <div class="flex justify-between items-center text-xs font-black uppercase"><span>India (UPI)</span><input type="checkbox" x-model="config.inrEnabled"></div>
                                 </div>
                                 <div class="space-y-6">
-                                    <label class="text-[10px] font-black uppercase">Admin Password</label><input type="text" x-model="adminKey" class="w-full bg-white/5 border border-white/10 p-5 rounded-2xl text-xs font-mono">
-                                    <label class="text-[10px] font-black uppercase">Crypto Wallet</label><input type="text" x-model="config.cryptoAddress" class="w-full bg-white/5 border border-white/10 p-5 rounded-2xl text-xs">
+                                    <input type="text" x-model="config.stripeKey" placeholder="Stripe Key" class="w-full bg-white/5 border border-white/10 p-5 rounded-2xl text-xs outline-none shadow-inner">
+                                    <input type="text" x-model="config.cryptoAddress" placeholder="USDT Address" class="w-full bg-white/5 border border-white/10 p-5 rounded-2xl text-xs outline-none shadow-inner">
+                                    <input type="text" x-model="config.upiId" placeholder="UPI ID (e.g. record@upi)" class="w-full bg-white/5 border border-white/10 p-5 rounded-2xl text-xs outline-none shadow-inner">
                                 </div>
                             </div>
-                            <button @click="saveData; alert('Security Vault Updated')" class="mt-8 px-10 py-5 bg-indigo-600 rounded-[2rem] text-[10px] font-black uppercase">Update Vault</button>
+                            <button @click="saveData" class="mt-12 px-12 py-5 bg-indigo-600 rounded-[2rem] text-[10px] font-black uppercase tracking-widest">Update Gateways</button>
                         </div>
+
+                        <div x-show="activeAdminTab === 'security'">
+                            <h2 class="text-2xl font-black mb-10 uppercase tracking-widest text-indigo-500">Security Vault</h2>
+                            <div class="max-w-sm space-y-6">
+                                <label class="text-[10px] font-black uppercase text-gray-500 block tracking-widest">Master Portal Password</label>
+                                <input type="text" x-model="adminKey" class="w-full bg-white/5 border border-white/10 p-6 rounded-3xl text-xs font-mono tracking-widest shadow-inner outline-none">
+                                <button @click="saveData; alert('Master Security Key Encrypted')" class="px-12 py-5 bg-red-600 rounded-[2rem] text-[10px] font-black uppercase tracking-widest shadow-2xl">Lock Vault</button>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
 
             <div x-show="view === 'register'" x-transition class="max-w-2xl mx-auto py-12">
                 <div class="glass p-12 rounded-[4.5rem] border border-white/5 shadow-2xl">
-                    <h2 class="text-4xl font-black mb-10 tracking-tighter leading-none text-center">Register as a Writer.</h2>
+                    <h2 class="text-4xl font-black mb-12 tracking-tighter leading-none text-center">Join Scribe Global.</h2>
                     <form @submit.prevent="submitApplication" class="space-y-6">
                         <div class="grid grid-cols-2 gap-6">
                             <input type="text" x-model="regForm.name" placeholder="Full Name" required class="w-full bg-white/5 border border-white/10 rounded-3xl p-6 text-xs outline-none focus:border-indigo-500 transition shadow-inner">
                             <input type="tel" x-model="regForm.phone" placeholder="WhatsApp with CC" required class="w-full bg-white/5 border border-white/10 rounded-3xl p-6 text-xs outline-none shadow-inner">
                         </div>
                         <div class="grid grid-cols-2 gap-6">
-                            <select x-model="regForm.subject" class="bg-white/5 border border-white/10 rounded-3xl p-6 text-xs outline-none cursor-pointer shadow-inner"><template x-for="s in subjectList"><option :value="s" x-text="s"></option></template></select>
-                            <select x-model="regForm.country" class="bg-white/5 border border-white/10 rounded-3xl p-6 text-xs outline-none cursor-pointer shadow-inner"><template x-for="c in countries"><option :value="c" x-text="c"></option></template></select>
+                            <select x-model="regForm.subject" class="bg-white/5 border border-white/10 rounded-3xl p-6 text-xs shadow-inner outline-none cursor-pointer"><template x-for="s in subjectList"><option :value="s" x-text="s"></option></template></select>
+                            <select x-model="regForm.country" class="bg-white/5 border border-white/10 rounded-3xl p-6 text-xs shadow-inner outline-none cursor-pointer"><template x-for="c in countries"><option :value="c" x-text="c"></option></template></select>
                         </div>
-                        <div class="p-10 bg-indigo-600/5 border-2 border-dashed border-white/10 rounded-[2.5rem] text-center">
-                            <p class="text-[10px] font-black uppercase text-indigo-400 mb-4 tracking-widest">Handwriting Samples Mandatory</p>
-                            <input type="file" @change="handleFileUpload" class="text-[10px] block w-full opacity-60">
+                        <div class="p-8 bg-yellow-400/5 border border-yellow-400/20 rounded-[2.5rem] flex justify-between items-center shadow-inner">
+                            <div><p class="text-[11px] font-black uppercase text-yellow-500">Elite Profile Boosting</p><p class="text-[8px] text-gray-500 uppercase">Appear first globally (OLX Logic Active)</p></div>
+                            <input type="checkbox" x-model="regForm.isHighlighted" class="w-6 h-6 rounded-full accent-indigo-600">
                         </div>
-                        <button class="w-full py-6 bg-indigo-600 rounded-[2rem] font-black text-[11px] uppercase tracking-[0.4em] shadow-2xl">Transmit Credentials</button>
+                        <button class="w-full py-6 bg-indigo-600 rounded-[2rem] font-black text-[11px] uppercase tracking-[0.4em] shadow-2xl">Submit Scribe credentials</button>
                     </form>
-                    <button @click="view = 'home'" class="w-full mt-6 text-[10px] font-black text-gray-600 uppercase tracking-widest">Return to Hub</button>
                 </div>
             </div>
 
         </main>
 
+        <div class="mt-24 px-10 text-center">
+            <div class="max-w-5xl mx-auto border-t border-white/5 pt-16 pb-10 opacity-90 min-h-[120px] overflow-hidden" x-html="config.adCode || ''"></div>
+        </div>
+
         <div class="fixed bottom-10 right-10 z-50 flex flex-col items-end gap-5">
             <div x-show="chatOpen" x-transition class="w-80 h-[500px] glass rounded-[3.5rem] shadow-2xl overflow-hidden flex flex-col mb-4 border border-indigo-500/30">
-                <div class="bg-indigo-600 p-7 flex justify-between items-center shadow-xl"><span class="text-[11px] font-black uppercase tracking-widest text-white font-bold">Concierge Support</span><button @click="chatOpen = false" class="text-white">✕</button></div>
+                <div class="bg-indigo-600 p-7 flex justify-between items-center shadow-xl font-bold"><span class="text-[11px] font-black uppercase tracking-widest text-white">Concierge</span><button @click="chatOpen = false" class="text-white">✕</button></div>
                 <div class="flex-grow p-6 overflow-y-auto space-y-4 bg-black/40 text-[10px]" id="chatbox">
-                    <template x-for="m in messages"><div :class="m.sender === 'User' ? 'ml-auto bg-indigo-600 text-white' : 'mr-auto bg-white/10 text-gray-300'" class="p-4 rounded-[2rem] max-w-[85%] shadow-sm leading-relaxed" x-text="m.text"></div></template>
+                    <template x-for="m in messages"><div :class="m.sender === 'User' ? 'ml-auto bg-indigo-600 text-white' : 'mr-auto bg-white/10 text-gray-300'" class="p-4 rounded-[2rem] max-w-[85%] shadow-sm leading-relaxed font-bold" x-text="m.text"></div></template>
                 </div>
                 <div class="p-6 border-t border-white/10 flex gap-2">
-                    <input type="text" x-model="chatInput" @keyup.enter="sendMessage" placeholder="Secure query..." class="flex-grow bg-white/5 rounded-full px-6 py-3.5 text-[10px] outline-none shadow-inner">
-                    <button @click="sendMessage" class="w-11 h-11 bg-indigo-600 rounded-full flex items-center justify-center transition-transform active:scale-90 shadow-lg text-white font-bold">➤</button>
+                    <input type="text" x-model="chatInput" @keyup.enter="sendMessage" placeholder="Secure query..." class="flex-grow bg-white/5 rounded-full px-6 py-3.5 text-[10px] outline-none">
+                    <button @click="sendMessage" class="w-11 h-11 bg-indigo-600 rounded-full flex items-center justify-center shadow-lg transition-transform active:scale-90">➤</button>
                 </div>
             </div>
             <button @click="chatOpen = !chatOpen" class="w-16 h-16 bg-indigo-600 rounded-full shadow-2xl flex items-center justify-center transition-all hover:scale-110 active:scale-95 chat-pulse">
                 <svg x-show="!chatOpen" class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
-                <span x-show="chatOpen" class="text-xl font-bold text-white">✕</span>
+                <span x-show="chatOpen" class="text-xl font-black text-white">✕</span>
             </button>
         </div>
 
         <div x-show="showPricing" class="fixed inset-0 z-[100] flex items-center justify-center p-6" x-transition>
             <div @click="showPricing = false" class="absolute inset-0 bg-black/95 backdrop-blur-xl"></div>
             <div class="glass max-w-sm w-full p-12 rounded-[4rem] relative text-center border border-white/10 shadow-2xl">
-                <div class="flex justify-center gap-3 mb-8">
-                    <button @click="currency = 'INR'" :class="currency === 'INR' ? 'bg-indigo-600 shadow-lg' : 'bg-white/5'" class="px-5 py-2 rounded-full text-[9px] font-black uppercase tracking-widest transition-all">INR (₹)</button>
-                    <button @click="currency = 'USD'" :class="currency === 'USD' ? 'bg-indigo-600 shadow-lg' : 'bg-white/5'" class="px-5 py-2 rounded-full text-[9px] font-black uppercase tracking-widest transition-all">USD ($)</button>
+                <div class="flex justify-center gap-4 mb-10">
+                    <button @click="currency = 'INR'" :class="currency === 'INR' ? 'bg-indigo-600 shadow-xl' : 'bg-white/5'" class="px-6 py-2 rounded-full text-[10px] font-black uppercase tracking-widest transition-all">INR (₹)</button>
+                    <button @click="currency = 'USD'" :class="currency === 'USD' ? 'bg-indigo-600 shadow-xl' : 'bg-white/5'" class="px-6 py-2 rounded-full text-[10px] font-black uppercase tracking-widest transition-all">USD ($)</button>
                 </div>
-                <h3 class="text-2xl font-black mb-10 uppercase tracking-tighter leading-none">Global Access</h3>
-                <div class="grid grid-cols-2 gap-4 mb-4">
-                    <button @click="buyPlan(currency === 'INR' ? 9 : 1)" class="p-8 bg-white/5 border border-white/10 rounded-[2.5rem] hover:border-indigo-500 transition group shadow-inner">
-                        <p class="text-[9px] font-black text-gray-500 uppercase mb-2">Basic</p>
-                        <p class="text-2xl font-black text-indigo-400 group-hover:scale-110 transition" x-text="currency === 'INR' ? '₹9' : '$1'"></p>
-                    </button>
-                    <button @click="buyPlan(currency === 'INR' ? 49 : 5)" class="p-8 bg-white/5 border border-white/10 rounded-[2.5rem] hover:border-indigo-500 transition group shadow-inner">
-                        <p class="text-[9px] font-black text-gray-500 uppercase mb-2">Elite</p>
-                        <p class="text-2xl font-black text-indigo-400 group-hover:scale-110 transition" x-text="currency === 'INR' ? '₹49' : '$5'"></p>
-                    </button>
+                <h3 class="text-2xl font-black mb-12 uppercase tracking-tighter leading-none">Global Access</h3>
+                <div class="grid grid-cols-2 gap-4 mb-5">
+                    <button @click="buyPlan(currency === 'INR' ? 9 : 1)" class="p-8 bg-white/5 border border-white/10 rounded-[2.5rem] hover:border-indigo-500 transition group shadow-inner"><p class="text-[9px] font-black text-gray-500 mb-2">Basic</p><p class="text-3xl font-black text-indigo-400 group-hover:scale-110 transition font-mono" x-text="currency === 'INR' ? '₹9' : '$1'"></p></button>
+                    <button @click="buyPlan(currency === 'INR' ? 49 : 5)" class="p-8 bg-white/5 border border-white/10 rounded-[2.5rem] hover:border-indigo-500 transition group shadow-inner"><p class="text-[9px] font-black text-gray-500 mb-2">Elite</p><p class="text-3xl font-black text-indigo-400 group-hover:scale-110 transition font-mono" x-text="currency === 'INR' ? '₹49' : '$5'"></p></button>
                 </div>
-                <button @click="buyPlan(currency === 'INR' ? 299 : 25)" class="w-full p-8 bg-indigo-600/10 border border-indigo-500 rounded-[2.5rem] text-center hover:bg-indigo-600 transition group shadow-lg">
-                    <p class="text-[11px] font-black uppercase group-hover:text-white mb-1 tracking-widest font-bold">Global Master Plan</p>
-                    <p class="text-2xl font-black text-indigo-400 group-hover:text-white transition" x-text="currency === 'INR' ? '₹299' : '$25'"></p>
-                </button>
+                <button @click="buyPlan(currency === 'INR' ? 299 : 25)" class="w-full p-8 bg-indigo-600/10 border border-indigo-500 rounded-[2.5rem] text-center hover:bg-indigo-600 transition group shadow-lg"><p class="text-[11px] font-black uppercase group-hover:text-white mb-1 tracking-widest font-bold">Unlimited Master Plan</p><p class="text-3xl font-black text-indigo-400 group-hover:text-white transition font-mono" x-text="currency === 'INR' ? '₹299' : '$25'"></p></button>
             </div>
         </div>
 
         <div x-show="showHireModal" class="fixed inset-0 z-[120] flex items-center justify-center p-6" x-transition>
             <div @click="showHireModal = false" class="absolute inset-0 bg-black/95 backdrop-blur-2xl"></div>
             <div class="glass max-w-xs w-full p-12 rounded-[4rem] relative text-center border border-white/5 shadow-2xl">
-                <div class="w-20 h-20 bg-green-500/20 text-green-500 rounded-full flex items-center justify-center mx-auto mb-10 text-4xl font-black animate-bounce shadow-[0_0_20px_rgba(34,197,94,0.3)]">✓</div>
-                <h3 class="text-2xl font-black mb-3 uppercase tracking-tighter leading-none">Verified</h3>
-                <div class="bg-indigo-600/10 border border-indigo-500/20 p-6 rounded-3xl font-mono text-indigo-400 text-sm mb-6 shadow-inner tracking-widest mt-6" x-text="revealedPhone"></div>
-                <a :href="'https://wa.me/'+revealedPhone" target="_blank" class="block w-full py-5 bg-green-500 text-black font-black text-[10px] uppercase rounded-2xl shadow-lg hover:bg-green-400 transition tracking-[0.2em]">Direct WhatsApp</a>
+                <div class="w-20 h-20 bg-green-500/20 text-green-500 rounded-full flex items-center justify-center mx-auto mb-10 text-4xl font-black shadow-[0_0_20px_rgba(34,197,94,0.3)] animate-pulse">✓</div>
+                <h3 class="text-2xl font-black mb-3 uppercase tracking-tighter">Verified</h3>
+                <div class="bg-indigo-600/10 border border-indigo-500/20 p-6 rounded-3xl font-mono text-indigo-400 text-sm mb-10 shadow-inner tracking-widest" x-text="revealedPhone"></div>
+                <a :href="'https://wa.me/'+revealedPhone" target="_blank" class="block w-full py-5 bg-green-500 text-black font-black text-[10px] uppercase rounded-2xl shadow-lg hover:bg-green-400 transition tracking-[0.2em] shadow-green-500/20">Direct WhatsApp</a>
             </div>
         </div>
 
         <footer class="py-12 border-t border-white/5 opacity-40 text-center px-10 bg-black/20">
             <p class="text-gray-400 text-[10px] leading-relaxed mb-6 max-w-xl mx-auto font-medium" x-text="config.footerAddress"></p>
-            <p class="text-[8px] font-black uppercase tracking-[0.7em] text-gray-500">RecordFlow Global Enterprise node v.11.0 Production</p>
+            <p class="text-[8px] font-black uppercase tracking-[0.8em] text-gray-500">RecordFlow Global node v.15.0 Enterprise Final Master</p>
         </footer>
 
     </div>
@@ -264,39 +280,42 @@
                 isPressing: false, pressTimer: null,
                 
                 config: {
-                    tickerEnabled: true, tickerText: "SYSTEM NOMINAL | MULTI-CURRENCY NODES ACTIVE | PRICING: ₹9, ₹49, ₹299 UNLIMITED | SECURE PRODUCTION v.11.0",
+                    tickerEnabled: true, tickerText: "SYSTEM NODE v.15.0 SECURE | AD MONETIZATION READY | GLOBAL MULTI-CURRENCY NODES ACTIVE | PRICES: ₹9 ($1) - ₹299 ($25)",
                     bannerEnabled: true, bannerUrl: "https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=1200&q=80",
                     bannerText: "Elite Global Hub for Scribes",
                     footerAddress: "RecordFlow Global LLC, 1309 Coffeen Avenue STE 1200, Sheridan, Wyoming 82801, USA",
                     gridLayout: 'grid-cols-4',
                     stripeEnabled: true, cryptoEnabled: true, inrEnabled: true,
-                    cryptoAddress: 'USDT_TRC20_SECURE_VALT', stripeKey: 'sk_master_v11'
+                    cryptoAddress: 'USDT_TRC20_WALLET_MASTER_NODE_V15', upiId: 'record@upi', stripeKey: 'sk_master_v15',
+                    adCode: '' 
                 },
 
                 filters: { search: '', subject: '', country: '' },
                 countries: ['USA', 'UK', 'India', 'Germany', 'Japan', 'UAE', 'Canada', 'Australia', 'Others'],
-                subjectList: ['Mathematics', 'Physics', 'Chemistry', 'Biology', 'Computer Science', 'Legal Drafting', 'Others'],
-                writers: [], messages: [{id: Date.now(), sender: 'Vault-01', text: 'Secure session established.'}],
-                regForm: { name: '', phone: '', subject: 'Physics', country: 'USA', handwritingSample: null },
+                subjectList: ['Mathematics', 'Physics', 'Chemistry', 'Biology', 'Computer Science', 'Legal Drafting', 'Medical Thesis', 'Others'],
+                writers: [], messages: [{id: Date.now(), sender: 'Vault-01', text: 'Secure multi-currency terminal active.'}],
+                regForm: { name: '', phone: '', subject: 'Mathematics', country: 'USA', isHighlighted: false },
                 adminKey: 'admin99',
                 adminTabs: [
-                    {id:'writers', name:'Validations'}, {id:'cms', name:'CMS Node'}, {id:'payments', name:'Gateways & Vault'}, {id:'inbox', name:'Interaction Logs'}
+                    {id:'writers', name:'Validations'}, {id:'ads', name:'Ads Manager'}, {id:'cms', name:'CMS Node'}, {id:'payments', name:'Financials'}, {id:'security', name:'Master Vault'}
                 ],
 
                 init() {
-                    const saved = localStorage.getItem('rf_v11_master');
+                    const saved = localStorage.getItem('rf_v15_master_final');
                     if(saved) {
                         const d = JSON.parse(saved);
-                        this.writers = d.writers; this.config = d.config; this.messages = d.messages; 
+                        this.writers = d.writers || []; 
+                        this.config = { ...this.config, ...d.config }; 
+                        this.messages = d.messages || []; 
                         this.adminKey = d.adminKey || 'admin99';
                     } else { this.seedWriters(); }
                     this.firewall();
                 },
 
-                // SECRET TRIGGER (10 SEC)
+                // ADMIN TRIGGER (10 SEC)
                 startPress() { this.isPressing = true; this.pressTimer = setTimeout(() => { 
-                    const pass = prompt('Enter Secure Node Master Password:');
-                    if(pass === this.adminKey) { this.view = 'admin'; } else { alert('Unauthorized Attempt.'); }
+                    const pass = prompt('Access Restricted. Enter Master Security Key:');
+                    if(pass === this.adminKey) { this.view = 'admin'; } else { alert('Access Denied. Node Logged Unauthorized Attempt.'); }
                     this.cancelPress(); 
                 }, 10000); },
                 cancelPress() { this.isPressing = false; clearTimeout(this.pressTimer); },
@@ -311,14 +330,15 @@
                 seedWriters() {
                     const styles = ['bottts', 'adventurer', 'avataaars'];
                     for (let i = 1; i <= 24; i++) {
+                        const seed = i + Date.now();
                         this.writers.push({
-                            id: i, name: `Global Scribe-${i + 3000}`, 
+                            id: i, name: `Global Specialist-${i + 8000}`, 
                             subject: this.subjectList[i % this.subjectList.length],
                             country: this.countries[i % this.countries.length],
-                            rating: (4.8 + Math.random() * 0.2).toFixed(1),
+                            rating: (4.7 + Math.random() * 0.3).toFixed(1),
                             available: Math.random() > 0.1, status: 'approved',
-                            isHighlighted: i < 5, phone: btoa('+919876543' + (i+99)),
-                            avatar: `https://api.dicebear.com/7.x/${styles[i%3]}/svg?seed=${i + Date.now()}`
+                            isHighlighted: i < 5, phone: btoa('+919876543' + (i+150)),
+                            avatar: `https://api.dicebear.com/7.x/${styles[i%3]}/svg?seed=${seed}`
                         });
                     }
                     this.saveData();
@@ -333,26 +353,19 @@
                     ).sort((a,b) => b.isHighlighted - a.isHighlighted);
                 },
 
-                handleFileUpload(e) {
-                    const reader = new FileReader();
-                    reader.onload = (f) => { this.regForm.handwritingSample = f.target.result; };
-                    reader.readAsDataURL(e.target.files[0]);
-                },
-
                 submitApplication() {
                     const newW = {
                         id: Date.now(), name: this.regForm.name, subject: this.regForm.subject,
-                        country: this.regForm.country, status: 'pending', isHighlighted: false,
+                        country: this.regForm.country, status: 'pending', isHighlighted: this.regForm.isHighlighted,
                         avatar: `https://api.dicebear.com/7.x/bottts/svg?seed=${Date.now()}`,
-                        handwritingSample: this.regForm.handwritingSample, phone: btoa(this.regForm.phone)
+                        phone: btoa(this.regForm.phone)
                     };
                     this.writers.push(newW); this.saveData(); this.view = 'home';
-                    alert('Encrypted Transmission Complete. Manual Validation Pending.');
+                    alert('Submission Complete. Manual verification node busy.');
                 },
 
                 initiateHire(writer) { this.selectedWriter = writer; this.showPricing = true; },
                 buyPlan(amt) {
-                    alert(`Gateway Node: Initializing Payment tunnel for ${this.currency === 'INR' ? '₹' : '$'}${amt}...`);
                     this.revealedPhone = atob(this.selectedWriter.phone);
                     this.showPricing = false; this.showHireModal = true;
                 },
@@ -365,12 +378,12 @@
                     if(!this.chatInput) return;
                     this.messages.push({id: Date.now(), sender: 'User', text: this.chatInput});
                     this.chatInput = ''; this.saveData();
-                    setTimeout(() => { this.messages.push({id: Date.now(), sender:'Vault-01', text:'Request logged in interaction node.'}); this.saveData(); }, 1000);
+                    setTimeout(() => { this.messages.push({id: Date.now(), sender:'Vault-01', text:'Global analyst busy. Query logged.'}); this.saveData(); }, 1000);
                 },
 
                 saveData() {
                     const d = { writers: this.writers, config: this.config, messages: this.messages, adminKey: this.adminKey };
-                    localStorage.setItem('rf_v11_master', JSON.stringify(d));
+                    localStorage.setItem('rf_v15_master_final', JSON.stringify(d));
                 },
 
                 firewall() { setInterval(() => { if (window.outerWidth - window.innerWidth > 160) { document.body.innerHTML = ''; } }, 1000); },
